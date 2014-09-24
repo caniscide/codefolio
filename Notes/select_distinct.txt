@@ -1,4 +1,4 @@
-select distinct column_name from table_name;
+:select distinct column_name from table_name;
   This will return all unique entries into column_name throughout the table.
   EG: 
   tgx_dev=# select distinct order_type from dd_orders;
@@ -11,3 +11,7 @@ select distinct column_name from table_name;
    NDT
   (5 rows)
 
+:Selecting IDs or other attributes based on condition of a child table...
+  u = User.includes(:roles).where("roles.id = ?", 9).all.collect{|f| f.id}
+  stripped down, the SQL boils down to:
+  SELECT users.id FROM users LEFT OUTER JOIN roles_users ON roles_users.user_id = users.id LEFT OUTER JOIN roles ON roles.id = roles_users.role_id WHERE (roles.id = 9);
